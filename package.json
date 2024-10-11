@@ -1,0 +1,22 @@
+{
+  "name": "zod.validation",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "zod": "node --import=tsx --watch ./src/zod.ts",
+    "dev": "node --import=tsx --watch ./src/server.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/node": "^22.7.4",
+    "express": "^4.21.1",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
+  },
+  "dependencies": {
+    "@types/express": "^5.0.0",
+    "zod": "^3.23.8"
+  }
+}
