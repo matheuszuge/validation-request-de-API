@@ -1,5 +1,6 @@
 import express from 'express';
 import z from 'zod';
+import { jsonplaceholderResponse } from './schemas/jsonplaceholderResponse';
 
 const server = express();
 
@@ -10,25 +11,21 @@ server.get('/ping', (req, res) => {
 	res.json({ pong: true });
 });
 
-server.post('/user', (req, res) => {
-	const userSchema = z.object({
-		name: z.string().min(2),
-		email: z.string().email(),
-		age: z.number().min(18).max(120),
-	});
+server.get('/posts', async (req, res) => {
+	const request = await fetch('https://jsonplaceholder.typicode.com/posts');
+	const data = await request.json();
 
-	const result = userSchema.safeParse(req.body);
+	const result = jsonplaceholderResponse.safeParse(data);
+
 	if (!result.success) {
-		res.json({ error: 'Dados inválidos' });
+		res.status(500).json({ error: 'Ocorreu um ERRRO interno' });
 		return;
 	}
+	let totalPosts = result.data.length;
 
-	const { name, email, age } = result.data;
-	//processo
-	console.log('processando...');
-	console.log(name, email, age);
+	res.json({ total: totalPosts });
 
-	res.status(201).json({ result: 'tudo ok' });
+	console.log(result);
 });
 
 server.listen(3000, () => {
